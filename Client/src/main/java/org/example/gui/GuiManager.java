@@ -219,44 +219,43 @@ public class GuiManager {
         update.addActionListener(new UpdateAction(user, client, this));
         language.addActionListener(new ChangeLanguageAction(user, client, this));
 
-        //todo
         add.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/add.png"))
                 .getImage()
                 .getScaledInstance(iconSize, iconSize, Image.SCALE_AREA_AVERAGING)));
-        clear.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/add_if_max.png"))
+        clear.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/clear.png"))
                 .getImage()
                 .getScaledInstance(iconSize, iconSize, Image.SCALE_AREA_AVERAGING)));
-        executeScript.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/update.png"))
+        executeScript.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/execute.png"))
                 .getImage()
                 .getScaledInstance(iconSize, iconSize, Image.SCALE_AREA_AVERAGING)));
-        exit.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/remove.png"))
+        exit.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/exit.png"))
                 .getImage()
                 .getScaledInstance(iconSize, iconSize, Image.SCALE_AREA_AVERAGING)));
-        info.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/clear.png"))
+        info.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/info.png"))
                 .getImage()
                 .getScaledInstance(iconSize, iconSize, Image.SCALE_AREA_AVERAGING)));
-        printFieldDescendingWeapon.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/count_by_average_mark.png"))
+        printFieldDescendingWeapon.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/descending_weapon.png"))
                 .getImage()
                 .getScaledInstance(iconSize, iconSize, Image.SCALE_AREA_AVERAGING)));
-        printUniqueMeleeWeapon.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/count_less_than_expelled.png"))
+        printUniqueMeleeWeapon.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/unique_melee_weapon.png"))
                 .getImage()
                 .getScaledInstance(iconSize, iconSize, Image.SCALE_AREA_AVERAGING)));
-        remove.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/exit.png"))
+        remove.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/remove.png"))
                 .getImage()
                 .getScaledInstance(iconSize, iconSize, Image.SCALE_AREA_AVERAGING)));
-        removeGreater.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/info.png"))
+        removeGreater.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/remove_greater.png"))
                 .getImage()
                 .getScaledInstance(iconSize, iconSize, Image.SCALE_AREA_AVERAGING)));
-        sort.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/remove_all_by_average_mark.png"))
+        sort.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/sort.png"))
                 .getImage()
                 .getScaledInstance(iconSize, iconSize, Image.SCALE_AREA_AVERAGING)));
-        shuffle.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/remove_greater.png"))
+        shuffle.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/shuffle.png"))
                 .getImage()
                 .getScaledInstance(iconSize, iconSize, Image.SCALE_AREA_AVERAGING)));
-        update.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/language.png"))
+        update.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/update.png"))
                 .getImage()
                 .getScaledInstance(iconSize, iconSize, Image.SCALE_AREA_AVERAGING)));
-        language.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/execute.png"))
+        language.setIcon(new ImageIcon(new ImageIcon(classLoader.getResource("icons/language.png"))
                 .getImage()
                 .getScaledInstance(iconSize, iconSize, Image.SCALE_AREA_AVERAGING)));
 

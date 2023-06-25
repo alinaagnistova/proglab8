@@ -1,7 +1,6 @@
 package org.example.data;
 
 
-import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 /**
  * The class with spaceMarine's coordinates

@@ -14,6 +14,8 @@ import static javax.swing.JOptionPane.OK_OPTION;
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 public class AddAction extends Action {
+    LocalDate date = LocalDate.now();
+
     public AddAction(User user, Client client, GuiManager guiManager) {
         super(user, client, guiManager);
     }
@@ -201,7 +203,7 @@ public class AddAction extends Action {
                             Integer.parseInt(cordXField.getText()),
                             Float.parseFloat(cordYField.getText())
                     ),
-                    new LocalDate(), //todo
+                    date,
                     Float.parseFloat(healthField.getText()),
                     (AstartesCategory) astartesCategoryField.getSelectedItem(),
                     (Weapon) weaponField.getSelectedItem(),

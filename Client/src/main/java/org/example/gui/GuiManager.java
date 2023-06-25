@@ -139,12 +139,11 @@ public class GuiManager {
         JScrollPane tablePane = new JScrollPane(table);
         this.cartesianPanel = new CartesianPanel(client, user, this);
         JPanel cardPanel = new JPanel();
-        //todo
         ImageIcon userIcon = new ImageIcon(new ImageIcon(classLoader.getResource("icons/user.png"))
                 .getImage()
                 .getScaledInstance(25, 25, Image.SCALE_AREA_AVERAGING));
         JLabel userLabel = new JLabel(user.name());
-        userLabel.setFont(new Font("Arial", Font.ITALIC, 18));
+        userLabel.setFont(new Font("Lucida Console", Font.ITALIC, 18));
         userLabel.setIcon(userIcon);
         CardLayout cardLayout = new CardLayout();
         cardPanel.setLayout(cardLayout);

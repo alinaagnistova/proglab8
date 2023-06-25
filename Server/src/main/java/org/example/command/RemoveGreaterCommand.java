@@ -11,6 +11,7 @@ import org.example.utils.DatabaseHandler;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 
 /**
@@ -34,7 +35,8 @@ public class RemoveGreaterCommand extends BaseCommand implements CollectionEdito
         if (!request.getArgs().isBlank()) throw new IllegalArgumentsException();
         try {
             if (Objects.isNull(request.getObject())){
-                return new Response(ResponseStatus.ASK_OBJECT, "Для команды " + this.getName() + " требуется объект");
+                ResourceBundle resourceBundle = ResourceBundle.getBundle("Response", request.getLocale());
+                return new Response(ResponseStatus.ASK_OBJECT,resourceBundle.getString("objNeed") + this.getName() + resourceBundle.getString("ForCommandObjecRrequired"));
             }
             Collection<SpaceMarine> toRemove = collectionManager.getCollection().stream()
                     .filter(Objects::nonNull)

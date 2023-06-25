@@ -42,7 +42,7 @@ public class Client {
         while (true) {
             try {
                 if(Objects.isNull(serverWriter) || Objects.isNull(serverReader)) throw new IOException();
-                if (request.isEmpty()) return new Response(ResponseStatus.WRONG_ARGUMENTS, resourceBundle.getString("EmptyrRequest"));
+                if (request.isEmpty()) return new Response(ResponseStatus.WRONG_ARGUMENTS, resourceBundle.getString("EmptyRequest"));
                 serverWriter.writeObject(request);
                 serverWriter.flush();
                 Response response = (Response) serverReader.readObject();

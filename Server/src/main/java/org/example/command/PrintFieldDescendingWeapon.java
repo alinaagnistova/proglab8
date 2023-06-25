@@ -2,10 +2,15 @@ package org.example.command;
 
 
 import org.example.collection.CollectionManager;
+import org.example.data.Weapon;
 import org.example.dtp.Request;
 import org.example.dtp.Response;
 import org.example.dtp.ResponseStatus;
 import org.example.error.IllegalArgumentsException;
+
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 /**
  * print_field_descending_weapon_type :
@@ -25,7 +30,9 @@ public class PrintFieldDescendingWeapon extends BaseCommand {
         if (CollectionManager.getCollection() == null || CollectionManager.getCollection().isEmpty()) {
             return new Response(ResponseStatus.ERROR, "Коллекция еще не инициализирована");
         }
-        return new Response(ResponseStatus.OK, "Значения поля weaponType всех элементов:" + collectionManager.printFieldDescendingWeapon() + "\n");
+        ArrayList<Weapon> descWeapon = collectionManager.printFieldDescendingWeapon();
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("Response", request.getLocale());
+        return new Response(ResponseStatus.OK, MessageFormat.format(resourceBundle.getString("allWeaponType"), descWeapon));
     }
 }
 

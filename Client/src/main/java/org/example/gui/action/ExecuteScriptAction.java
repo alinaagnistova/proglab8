@@ -36,7 +36,7 @@ public class ExecuteScriptAction extends Action{
 
         int option = JOptionPane.showOptionDialog(null,
                 panel,
-                resourceBundle.getString("ExecuteScript"),
+                resourceBundle.getString("ScriptExecute"),
                 JOptionPane.YES_NO_OPTION,
                 QUESTION_MESSAGE,
                 null,

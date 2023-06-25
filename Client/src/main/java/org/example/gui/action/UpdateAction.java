@@ -107,7 +107,7 @@ public class UpdateAction extends Action {
                 @Override
                 public Object stringToValue(String text) throws ParseException {
                     if (text.trim().isEmpty()) {
-                        throw new ParseException(resourceBundle.getString("FiledNotEmpty"), 0);
+                        throw new ParseException(resourceBundle.getString("FieldNotEmpty"), 0);
                     }
                     return super.stringToValue(text);
                 }
@@ -157,7 +157,7 @@ public class UpdateAction extends Action {
                 @Override
                 public Object stringToValue(String text) throws ParseException {
                     if (text.trim().isEmpty()) {
-                        throw new ParseException(resourceBundle.getString("FiledNotEmpty"), 0);
+                        throw new ParseException(resourceBundle.getString("FieldNotEmpty"), 0);
                     }
                     return super.stringToValue(text);
                 }

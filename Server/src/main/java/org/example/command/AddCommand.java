@@ -32,10 +32,10 @@ public class AddCommand extends BaseCommand implements CollectionEditor{
         //todo
         ResourceBundle resourceBundle = ResourceBundle.getBundle("Response", request.getLocale());
         if (Objects.isNull(request.getObject())){
-            return new Response(ResponseStatus.ASK_OBJECT, "Для команды " + this.getName() + " требуется объект");
+            return new Response(ResponseStatus.ASK_OBJECT,resourceBundle.getString("objNeed") + this.getName() + resourceBundle.getString("ForCommandObjecRrequired"));
         } else{
             long new_id = DatabaseHandler.getDatabaseManager().addObject(request.getObject(), request.getUser());
-            if(new_id == -1) return new Response(ResponseStatus.ERROR, "Объект добавить не удалось");
+            if(new_id == -1) return new Response(ResponseStatus.ERROR, resourceBundle.getString("objNotSucceedAdd"));
             request.getObject().setId(new_id);
             request.getObject().setUserLogin(request.getUser().name());
             collectionManager.addSpaceMarine(request.getObject());

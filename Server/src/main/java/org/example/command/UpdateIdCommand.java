@@ -14,6 +14,7 @@ import org.example.error.NoSuchIDException;
 import org.example.utils.DatabaseHandler;
 
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 
 /**
@@ -38,7 +39,8 @@ public class UpdateIdCommand extends BaseCommand implements CollectionEditor{
             long id = Long.parseLong(request.getArgs().trim());
             if (!CollectionUtil.checkExist(id)) throw new NoSuchIDException();
             if (Objects.isNull(request.getObject())){
-                return new Response(ResponseStatus.ASK_OBJECT, "Для команды " + this.getName() + " требуется объект");
+                ResourceBundle resourceBundle = ResourceBundle.getBundle("Response", request.getLocale());
+                return new Response(ResponseStatus.ASK_OBJECT,resourceBundle.getString("objNeed") + this.getName() + resourceBundle.getString("ForCommandObjecRrequired"));
             }
             if(DatabaseHandler.getDatabaseManager().updateObject(id, request.getObject(), request.getUser())){
                 collectionManager.updateId(request.getObject(), id);

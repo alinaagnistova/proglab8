@@ -1,10 +1,16 @@
 package org.example.command;
 
 import org.example.collection.CollectionManager;
+import org.example.data.MeleeWeapon;
 import org.example.dtp.Request;
 import org.example.dtp.Response;
 import org.example.dtp.ResponseStatus;
 import org.example.error.IllegalArgumentsException;
+
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
 /**
  * print_unique_melee_weapon :
  * print the unique values of the MeleeWeapon field of all items in the collection
@@ -23,7 +29,9 @@ public class PrintUniqueMeleeWeaponCommand extends BaseCommand{
         if (CollectionManager.getCollection() == null || CollectionManager.getCollection().isEmpty()) {
             return new Response(ResponseStatus.ERROR, "Коллекция еще не инициализирована");
         }
-        return new Response(ResponseStatus.OK, "Уникальные значения поля meleeWeapon: " + collectionManager.printUniqueMeleeWeapon() + "\n");
+        ArrayList<MeleeWeapon> unique = collectionManager.printUniqueMeleeWeapon();
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("Response", request.getLocale());
+        return new Response(ResponseStatus.OK, MessageFormat.format(resourceBundle.getString("uniqueMeleeWeapon"),unique));
     }
 
 }

@@ -22,12 +22,6 @@ private static boolean fileMode = false;
     }
 
     @Override
-    public Long readLong() {
-        Scanner scanner = new Scanner(System.in);
-        return Long.valueOf(scanner.nextLine().trim());
-    }
-
-    @Override
     public String readLine() {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine().trim();

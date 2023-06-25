@@ -28,7 +28,7 @@ public class Response implements Serializable {
 
     public Response(ResponseStatus status, String response, Collection<SpaceMarine> collection) {
         this.status = status;
-        this.response = response.trim();
+        this.response = response.trim() + "\n";
         this.collection = collection.stream()
                 .sorted(Comparator.comparing(SpaceMarine::getId))
                 .toList();

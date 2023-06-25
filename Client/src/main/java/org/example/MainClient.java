@@ -3,16 +3,19 @@ package org.example;
 import org.example.console.BlankConsole;
 import org.example.console.ReaderWriter;
 import org.example.console.Console;
+import org.example.gui.GuiManager;
 import org.example.utils.Client;
 import org.example.error.IllegalArgumentsException;
-import org.example.utils.RuntimeManager;
 
-import java.util.Scanner;
 
 public class MainClient {
     private static String host;
     private static int port;
     private static ReaderWriter console = new BlankConsole();
+    public final static int RECONNECTION_TIMEOUT = 5;
+    public final static int MAX_RECONNECTION_ATTEMPTS = 5;
+
+
 
     public static boolean parseHostPort(String[] args){
         try{
@@ -31,7 +34,7 @@ public class MainClient {
     public static void main(String[] args) {
         if (!parseHostPort(args)) return;
         Console console = new Console();
-        Client client = new Client(host, port, 5000, 5, console);
-        new RuntimeManager(console, new Scanner(System.in), client).interactiveMode();
+        Client client = new Client(host, port, RECONNECTION_TIMEOUT, MAX_RECONNECTION_ATTEMPTS, console);
+        new GuiManager(client);
     }
 }

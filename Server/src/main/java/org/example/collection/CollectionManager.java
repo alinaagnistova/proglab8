@@ -61,17 +61,18 @@ public class CollectionManager{
         }
     }
 
-
-
-
-
-    /**
-     * print info about collection
-     */
-    public String info() {
+    public String collectionType() {
         try {
             readLock.lock();
-            return "Type of collection:" + collection.getClass().getSimpleName() + "\nDate of initialization:" + lastInitTime + "\nNumbers of elements:" + collection.size() + "\n";
+            return collection.getClass().getSimpleName();
+        }finally{
+            readLock.unlock();
+        }
+    }
+    public int collectionSize() {
+        try {
+            readLock.lock();
+            return collection.size();
         }finally{
             readLock.unlock();
         }

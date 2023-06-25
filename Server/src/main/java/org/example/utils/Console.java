@@ -15,13 +15,6 @@ public class Console implements ReaderWriter {
     }
 
     @Override
-    public Long readLong() {
-        Scanner scanner = new Scanner(System.in);
-        Long number = Long.valueOf(scanner.nextLine().trim());
-        return number;
-    }
-
-    @Override
     public String readLine() {
         Scanner scanner = new Scanner(System.in);
         String text = scanner.nextLine().trim();

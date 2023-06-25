@@ -8,6 +8,8 @@ import org.example.dtp.ResponseStatus;
 import org.example.error.IllegalArgumentsException;
 import org.example.utils.ConsoleColors;
 
+import java.util.ResourceBundle;
+
 /**
  * info :
  * output to the standard output stream information about the collection
@@ -28,6 +30,14 @@ public class InfoCommand extends BaseCommand {
     @Override
     public Response execute(Request request) throws IllegalArgumentsException {
         if (!request.getArgs().isBlank()) throw new IllegalArgumentsException();
-        return new Response(ResponseStatus.OK, collectionManager.info() + "\n");
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("Response", request.getLocale());
+        String lastInitTime = (collectionManager.getLastInitTime() == null)
+                ? resourceBundle.getString("noCollectionInSession")
+                : collectionManager.getLastInitTime().toString();
+        String stringBuilder = resourceBundle.getString("CollectionInfo") +
+                resourceBundle.getString("type") + collectionManager.collectionType() + "\n" +
+                resourceBundle.getString("elementsCount") + collectionManager.collectionSize() + "\n" +
+                resourceBundle.getString("lastInitTime") + lastInitTime + "\n";
+        return new Response(ResponseStatus.OK, stringBuilder);
     }
 }

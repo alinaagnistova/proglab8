@@ -25,9 +25,10 @@ public class HelpCommand extends BaseCommand {
     @Override
     public Response execute(Request request) throws IllegalArgumentsException {
         if (!request.getArgs().isBlank()) throw new IllegalArgumentsException();
-        return new Response(ResponseStatus.OK,
-                String.join("\n",
-                        commandManager.getCommands()
-                                .stream().map(BaseCommand::getDescription).toList()) + "\n");
+//        return new Response(ResponseStatus.OK,
+//                String.join("\n",
+//                        commandManager.getCommands()
+//                                .stream().map(BaseCommand::getDescription).toList()) + "\n");
+    return new Response(ResponseStatus.OK);
     }
 }

@@ -9,6 +9,7 @@ import org.example.error.IllegalArgumentsException;
 import org.example.utils.DatabaseHandler;
 
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 /**
  * Command add {element}
@@ -28,6 +29,8 @@ public class AddCommand extends BaseCommand implements CollectionEditor{
     @Override
     public Response execute(Request request) throws IllegalArgumentsException {
         if (!request.getArgs().isBlank()) throw new IllegalArgumentsException();
+        //todo
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("Response", request.getLocale());
         if (Objects.isNull(request.getObject())){
             return new Response(ResponseStatus.ASK_OBJECT, "Для команды " + this.getName() + " требуется объект");
         } else{
@@ -36,7 +39,7 @@ public class AddCommand extends BaseCommand implements CollectionEditor{
             request.getObject().setId(new_id);
             request.getObject().setUserLogin(request.getUser().name());
             collectionManager.addSpaceMarine(request.getObject());
-            return new Response(ResponseStatus.OK, "Объект успешно добавлен");
+            return new Response(ResponseStatus.OK, resourceBundle.getString("objAddOl"));
         }
     }
 

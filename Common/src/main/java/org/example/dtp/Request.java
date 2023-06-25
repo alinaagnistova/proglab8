@@ -3,6 +3,7 @@ package org.example.dtp;
 import org.example.data.SpaceMarine;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Locale;
 
 public class Request implements Serializable {
     private static final long serialVersionUID = 7L;
@@ -11,24 +12,29 @@ public class Request implements Serializable {
     private String args = "";
     private SpaceMarine object = null;
     private User user;
+    private Locale locale;
 
-    public Request(String commandName, String args, User user) {
+
+    public Request(String commandName, String args, User user, Locale locale) {
         this.commandName = commandName.trim();
         this.args = args;
         this.user = user;
+        this.locale = locale;
     }
 
-    public Request(String commandName, User user, SpaceMarine object) {
+    public Request(String commandName, User user, SpaceMarine object, Locale locale) {
         this.commandName = commandName.trim();
         this.object = object;
         this.user = user;
+        this.locale = locale;
     }
 
-    public Request(String commandName, String args, User user, SpaceMarine object) {
+    public Request(String commandName, String args, User user, SpaceMarine object, Locale locale) {
         this.commandName = commandName.trim();
         this.args = args.trim();
         this.object = object;
         this.user = user;
+        this.locale = locale;
     }
     public boolean isEmpty() {
         return commandName.isEmpty() && args.isEmpty() && object == null;
@@ -49,6 +55,10 @@ public class Request implements Serializable {
     public User getUser() {
         return user;
     }
+    public Locale getLocale() {
+        return locale;
+    }
+
 
     @Override
     public boolean equals(Object o) {

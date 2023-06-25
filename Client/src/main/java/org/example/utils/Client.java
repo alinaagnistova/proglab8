@@ -1,11 +1,19 @@
 package org.example.utils;
 
+import org.example.console.BlankConsole;
 import org.example.console.Console;
+import org.example.console.ReaderWriter;
+import org.example.console.UserInput;
 import org.example.dtp.*;
+import org.example.gui.GuiManager;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
+import java.text.MessageFormat;
 import java.util.Objects;
+import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Client {
     private String host;
@@ -13,25 +21,28 @@ public class Client {
     private int reconnectionTimeout;
     private int reconnectionAttempts;
     private int maxReconnectionAttempts;
-    private Console console;
+    private ReaderWriter console;
     private Socket socket;
     private ObjectOutputStream serverWriter;
     private ObjectInputStream serverReader;
+    //todo
+    private ResourceBundle resourceBundle = ResourceBundle.getBundle("GuiLabels", GuiManager.getLocale());
 
 
-    public Client(String host, int port, int reconnectionTimeout, int maxReconnectionAttempts, Console console) {
+
+    public Client(String host, int port, int reconnectionTimeout, int maxReconnectionAttempts, ReaderWriter console) {
         this.host = host;
         this.port = port;
         this.reconnectionTimeout = reconnectionTimeout;
         this.maxReconnectionAttempts = maxReconnectionAttempts;
-        this.console = console;
+        this.console = new BlankConsole();
     }
 
-    public Response sendAndAskResponse(Request request) {
+    public Response sendAndAskResponse(Request request){
         while (true) {
             try {
-                if (Objects.isNull(serverWriter) || Objects.isNull(serverReader)) throw new IOException();
-                if (request.isEmpty()) return new Response(ResponseStatus.WRONG_ARGUMENTS, "Запрос пустой!");
+                if(Objects.isNull(serverWriter) || Objects.isNull(serverReader)) throw new IOException();
+                if (request.isEmpty()) return new Response(ResponseStatus.WRONG_ARGUMENTS, resourceBundle.getString("EmptyrRequest"));
                 serverWriter.writeObject(request);
                 serverWriter.flush();
                 Response response = (Response) serverReader.readObject();
@@ -39,21 +50,34 @@ public class Client {
                 reconnectionAttempts = 0;
                 return response;
             } catch (IOException e) {
-                if (reconnectionAttempts == 0) {
+                if (reconnectionAttempts == 0){
                     connectToServer();
                     reconnectionAttempts++;
                     continue;
-                } else {
-                    console.printError("Соединение с сервером разорвано");
                 }
                 try {
                     reconnectionAttempts++;
                     if (reconnectionAttempts >= maxReconnectionAttempts) {
-                        console.printError("Превышено максимальное количество попыток соединения с сервером");
-                        return new Response(ResponseStatus.EXIT);
+                        JOptionPane.showMessageDialog(null,
+                                resourceBundle.getString("ToMuchTries"),
+                                resourceBundle.getString("ServerNotAvailable"),
+                                JOptionPane.ERROR_MESSAGE);
+                        System.exit(666);
                     }
-                    console.write("Повторная попытка через " + reconnectionTimeout / 1000 + " секунд");
-                    Thread.sleep(reconnectionTimeout);
+                    AtomicInteger seconds = new AtomicInteger(reconnectionTimeout);
+                    JOptionPane optionPane = new JOptionPane(resourceBundle.getString("ServerConnectionBreaked"));
+                    JDialog dialog = optionPane.createDialog(null, resourceBundle.getString("ServerConnectionBreaked"));
+                    dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+                    new Timer(1000, (i) -> {
+                        seconds.decrementAndGet();
+                        if (seconds.get() <= 0) {
+                            dialog.dispose();
+                        } else {
+                            optionPane.setMessage(MessageFormat.format(
+                                    resourceBundle.getString("NextTryIn") + seconds, resourceBundle.getString("ServerConnectionBreaked"),seconds));
+                        }
+                    }).start();
+                    dialog.setVisible(true);
                     connectToServer();
                 } catch (Exception exception) {
                     console.printError("Попытка соединения с сервером неуспешна");

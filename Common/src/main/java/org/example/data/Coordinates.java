@@ -35,6 +35,10 @@ public class Coordinates implements Serializable, IValidator {
     public Float getY() {
         return y;
     }
+    public float getRadius(){
+        return (float) (Math.pow(getX(), 2) + Math.pow(getY(), 2));
+    }
+
 
     @Override
     public String toString() {

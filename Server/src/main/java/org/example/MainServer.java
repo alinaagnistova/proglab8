@@ -14,10 +14,10 @@ public class MainServer extends Thread{
     public static final int CONNECTION_TIMEOUT = 60 * 1000;
     public static final String DATABASE_URL = "jdbc:postgresql://localhost:5433/studs";
     public static final String DATABASE_URL_HELIOS = "jdbc:postgresql://pg:5432/studs";
-    public static final String DATABASE_CONFIG_PATH = "C:\\Users\\agnis\\IdeaProjects\\proglab7\\server\\dbconfig.cfg";
+    public static final String DATABASE_CONFIG_PATH = MainServer.class.getClassLoader().getResource("dbconfig.cfg").getPath();
 
         public static int PORT;
-        public static final Logger rootLogger = LogManager.getRootLogger();
+        public static final Logger rootLogger = LogManager.getLogger(MainServer.class);
 
         public static void main(String[] args) {
             rootLogger.info("--------------------------------------------------------------------");

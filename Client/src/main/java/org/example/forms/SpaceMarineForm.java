@@ -11,7 +11,7 @@ public class SpaceMarineForm extends Form<SpaceMarine> {
     private final ReaderWriter console;
     private final UserInput scanner;
 
-    public SpaceMarineForm(Console console) {
+    public SpaceMarineForm(ReaderWriter console) {
         this.console = (Console.isFileMode())
                 ? new BlankConsole()
                 : console;

@@ -5,11 +5,6 @@ import org.example.utils.ConsoleColors;
 public class BlankConsole implements ReaderWriter{
 
     @Override
-    public Long readLong() {
-        return null;
-    }
-
-    @Override
     public String readLine() {
         return null;
     }

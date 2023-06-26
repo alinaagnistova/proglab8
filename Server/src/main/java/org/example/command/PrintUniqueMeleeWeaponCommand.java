@@ -30,7 +30,7 @@ public class PrintUniqueMeleeWeaponCommand extends BaseCommand{
             return new Response(ResponseStatus.ERROR, "Коллекция еще не инициализирована");
         }
         ArrayList<MeleeWeapon> unique = collectionManager.printUniqueMeleeWeapon();
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("Response", request.getLocale());
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("Response");
         return new Response(ResponseStatus.OK, MessageFormat.format(resourceBundle.getString("uniqueMeleeWeapon"),unique));
     }
 

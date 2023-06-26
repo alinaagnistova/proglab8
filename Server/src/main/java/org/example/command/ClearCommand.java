@@ -28,7 +28,7 @@ public class ClearCommand extends BaseCommand implements CollectionEditor{
     public Response execute(Request request) throws IllegalArgumentsException {
         if (!request.getArgs().isBlank()) throw new IllegalArgumentsException();
         //todo
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("Response", request.getLocale());
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("Response");
         List<Long> deletedIds = collectionManager.getCollection().stream()
                 .filter(studyGroup -> studyGroup.getUserLogin().equals(request.getUser().name()))
                 .map(SpaceMarine::getId)

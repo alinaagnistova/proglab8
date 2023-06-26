@@ -72,76 +72,76 @@ class CartesianPanel extends JPanel implements ActionListener {
             }
         });
         // Drag`n`drop объектов
-        this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                try {
-                    mouseDragOldPoint = e.getPoint();
-                    mouseDragRectangle = rectangles.keySet().stream()
-                            .filter(r -> r.contains(mouseDragOldPoint))
-                            .sorted(Comparator.comparing(Rectangle::getX).reversed())
-                            .toList().get(0);
-                    Long id = rectangles.get(mouseDragRectangle);
-                    mouseDragObject = collection.stream()
-                            .filter((s) -> s.getId().equals(id))
-                            .toList().get(0);
-                    if(!mouseDragObject.getUserLogin().equals(user.name())) return;
-                    isDragging = true;
-                } catch (ArrayIndexOutOfBoundsException err) {return;}
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if(!mouseDragObject.getUserLogin().equals(user.name())) return;
-                super.mouseReleased(e);
-                if(!isDragging) return;
-                int width = getWidth();
-                int halfWidth = width / 2;
-                int height = getHeight();
-                int halfHeight = height / 2;
-                int elementWidth = 130;
-                int elementHeight = 130;
-//                System.out.print(mouseDragOldPoint.getX());
-//                System.out.print("   ");
-//                System.out.println(mouseDragOldPoint.getY());
-                mouseDragObject.setCoordinates(new Coordinates(
-                        (int) ((maxCordX / (halfWidth - elementWidth)) * (e.getX() - halfWidth)),
-                        (float) ((maxCordY / (halfHeight - elementHeight)) * (e.getY() - halfHeight))));
-                client.sendAndAskResponse(new Request("update", String.valueOf(mouseDragObject.getId()), user, mouseDragObject, GuiManager.getLocale()));
-                guiManager.repaintNoAnimation();
-                mouseDragOldPoint = e.getPoint();
-                isDragging = false;
-                skip_animation = true;
-            }
-        });
-        this.addMouseMotionListener(new MouseMotionListener() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                return;
-            }
-
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                if(!mouseDragObject.getUserLogin().equals(user.name())) return;
-                int width = getWidth();
-                int halfWidth = width / 2;
-                int height = getHeight();
-                int halfHeight = height / 2;
-                int elementWidth = 130;
-                int elementHeight = 130;
-                collection.stream()
-                        .filter(s -> s.getId().equals(mouseDragObject.getId()))
-                        .forEach(s -> s.setCoordinates(new Coordinates(
-                                (int) ((maxCordX / (halfWidth - elementWidth)) * (e.getX() - halfWidth)),
-                                (float) ((maxCordY / (halfHeight - elementHeight)) * (e.getY() - halfHeight)))));
-                CartesianPanel.this.repaint();
-            }
-        });
+//        this.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mousePressed(MouseEvent e) {
+//                try {
+//                    mouseDragOldPoint = e.getPoint();
+//                    mouseDragRectangle = rectangles.keySet().stream()
+//                            .filter(r -> r.contains(mouseDragOldPoint))
+//                            .sorted(Comparator.comparing(Rectangle::getX).reversed())
+//                            .toList().get(0);
+//                    Long id = rectangles.get(mouseDragRectangle);
+//                    mouseDragObject = collection.stream()
+//                            .filter((s) -> s.getId().equals(id))
+//                            .toList().get(0);
+//                    if(!mouseDragObject.getUserLogin().equals(user.name())) return;
+//                    isDragging = true;
+//                } catch (ArrayIndexOutOfBoundsException err) {return;}
+//            }
+//
+//            @Override
+//            public void mouseReleased(MouseEvent e) {
+//                if(!mouseDragObject.getUserLogin().equals(user.name())) return;
+//                super.mouseReleased(e);
+//                if(!isDragging) return;
+//                int width = getWidth();
+//                int halfWidth = width / 2;
+//                int height = getHeight();
+//                int halfHeight = height / 2;
+//                int elementWidth = 130;
+//                int elementHeight = 130;
+////                System.out.print(mouseDragOldPoint.getX());
+////                System.out.print("   ");
+////                System.out.println(mouseDragOldPoint.getY());
+//                mouseDragObject.setCoordinates(new Coordinates(
+//                        (int) ((maxCordX / (halfWidth - elementWidth)) * (e.getX() - halfWidth)),
+//                        (float) ((maxCordY / (halfHeight - elementHeight)) * (e.getY() - halfHeight))));
+//                client.sendAndAskResponse(new Request("update", String.valueOf(mouseDragObject.getId()), user, mouseDragObject, GuiManager.getLocale()));
+//                guiManager.repaintNoAnimation();
+//                mouseDragOldPoint = e.getPoint();
+//                isDragging = false;
+//                skip_animation = true;
+//            }
+//        });
+//        this.addMouseMotionListener(new MouseMotionListener() {
+//            @Override
+//            public void mouseMoved(MouseEvent e) {
+//                return;
+//            }
+//
+//            @Override
+//            public void mouseDragged(MouseEvent e) {
+//                if(!mouseDragObject.getUserLogin().equals(user.name())) return;
+//                int width = getWidth();
+//                int halfWidth = width / 2;
+//                int height = getHeight();
+//                int halfHeight = height / 2;
+//                int elementWidth = 130;
+//                int elementHeight = 130;
+//                collection.stream()
+//                        .filter(s -> s.getId().equals(mouseDragObject.getId()))
+//                        .forEach(s -> s.setCoordinates(new Coordinates(
+//                                (int) ((maxCordX / (halfWidth - elementWidth)) * (e.getX() - halfWidth)),
+//                                (float) ((maxCordY / (halfHeight - elementHeight)) * (e.getY() - halfHeight)))));
+//                CartesianPanel.this.repaint();
+//            }
+//        });
     }
 
     public void updateUserColors() {
         Random random = new Random();
-        Response response = client.sendAndAskResponse(new Request("show", "", user, GuiManager.getLocale()));
+        Response response = client.sendAndAskResponse(new Request("show", "", user));
         this.users = response.getCollection().stream()
                 .map(SpaceMarine::getUserLogin)
                 .distinct()

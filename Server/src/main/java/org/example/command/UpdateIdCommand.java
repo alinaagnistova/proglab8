@@ -39,7 +39,7 @@ public class UpdateIdCommand extends BaseCommand implements CollectionEditor{
             long id = Long.parseLong(request.getArgs().trim());
             if (!CollectionUtil.checkExist(id)) throw new NoSuchIDException();
             if (Objects.isNull(request.getObject())){
-                ResourceBundle resourceBundle = ResourceBundle.getBundle("Response", request.getLocale());
+                ResourceBundle resourceBundle = ResourceBundle.getBundle("Response");
                 return new Response(ResponseStatus.ASK_OBJECT,resourceBundle.getString("objNeed") + this.getName() + resourceBundle.getString("ForCommandObjecRrequired"));
             }
             if(DatabaseHandler.getDatabaseManager().updateObject(id, request.getObject(), request.getUser())){

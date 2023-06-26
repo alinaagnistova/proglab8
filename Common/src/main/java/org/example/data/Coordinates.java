@@ -1,11 +1,15 @@
 package org.example.data;
 
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
+import java.util.Objects;
+
 /**
  * The class with spaceMarine's coordinates
  */
-public class Coordinates implements Serializable, IValidator {
+public class Coordinates implements Serializable, IValidator, Comparable<Coordinates> {
     private static final long serialVersionUID = 3L;
 
     private Integer x;
@@ -72,6 +76,13 @@ public class Coordinates implements Serializable, IValidator {
         }else{
             return true;
         }
+    }
+
+    @Override
+    public int compareTo(Coordinates o) {
+        if (Objects.isNull(o)) return 1;
+        return Double.compare((Math.pow(this.getX(), 2) + Math.pow(this.getY(), 2)),
+                (Math.pow(o.getX(), 2) + Math.pow(o.getY(), 2)));
     }
 }
 

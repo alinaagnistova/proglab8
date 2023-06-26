@@ -30,7 +30,7 @@ public class AddCommand extends BaseCommand implements CollectionEditor{
     public Response execute(Request request) throws IllegalArgumentsException {
         if (!request.getArgs().isBlank()) throw new IllegalArgumentsException();
         //todo
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("Response", request.getLocale());
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("Response");
         if (Objects.isNull(request.getObject())){
             return new Response(ResponseStatus.ASK_OBJECT,resourceBundle.getString("objNeed") + this.getName() + resourceBundle.getString("ForCommandObjecRrequired"));
         } else{

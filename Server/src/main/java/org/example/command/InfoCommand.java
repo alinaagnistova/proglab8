@@ -30,7 +30,7 @@ public class InfoCommand extends BaseCommand {
     @Override
     public Response execute(Request request) throws IllegalArgumentsException {
         if (!request.getArgs().isBlank()) throw new IllegalArgumentsException();
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("Response", request.getLocale());
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("Response");
         String lastInitTime = (collectionManager.getLastInitTime() == null)
                 ? resourceBundle.getString("noCollectionInSession")
                 : collectionManager.getLastInitTime().toString();

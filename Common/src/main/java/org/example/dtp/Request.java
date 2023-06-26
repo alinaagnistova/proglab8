@@ -12,29 +12,29 @@ public class Request implements Serializable {
     private String args = "";
     private SpaceMarine object = null;
     private User user;
-    private Locale locale;
+//    private Locale locale;
 
 
-    public Request(String commandName, String args, User user, Locale locale) {
+    public Request(String commandName, String args, User user) {
         this.commandName = commandName.trim();
         this.args = args;
         this.user = user;
-        this.locale = locale;
+//        this.locale = locale;
     }
 
-    public Request(String commandName, User user, SpaceMarine object, Locale locale) {
+    public Request(String commandName, User user, SpaceMarine object) {
         this.commandName = commandName.trim();
         this.object = object;
         this.user = user;
-        this.locale = locale;
+//        this.locale = locale;
     }
 
-    public Request(String commandName, String args, User user, SpaceMarine object, Locale locale) {
+    public Request(String commandName, String args, User user, SpaceMarine object) {
         this.commandName = commandName.trim();
         this.args = args.trim();
         this.object = object;
         this.user = user;
-        this.locale = locale;
+//        this.locale = locale;
     }
     public boolean isEmpty() {
         return commandName.isEmpty() && args.isEmpty() && object == null;
@@ -55,9 +55,9 @@ public class Request implements Serializable {
     public User getUser() {
         return user;
     }
-    public Locale getLocale() {
-        return locale;
-    }
+//    public Locale getLocale() {
+//        return locale;
+//    }
 
 
     @Override

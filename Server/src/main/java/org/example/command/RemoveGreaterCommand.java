@@ -35,7 +35,7 @@ public class RemoveGreaterCommand extends BaseCommand implements CollectionEdito
         if (!request.getArgs().isBlank()) throw new IllegalArgumentsException();
         try {
             if (Objects.isNull(request.getObject())){
-                ResourceBundle resourceBundle = ResourceBundle.getBundle("Response", request.getLocale());
+                ResourceBundle resourceBundle = ResourceBundle.getBundle("Response");
                 return new Response(ResponseStatus.ASK_OBJECT,resourceBundle.getString("objNeed") + this.getName() + resourceBundle.getString("ForCommandObjecRrequired"));
             }
             Collection<SpaceMarine> toRemove = collectionManager.getCollection().stream()

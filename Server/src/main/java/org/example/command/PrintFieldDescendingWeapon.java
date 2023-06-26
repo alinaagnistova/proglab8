@@ -31,7 +31,7 @@ public class PrintFieldDescendingWeapon extends BaseCommand {
             return new Response(ResponseStatus.ERROR, "Коллекция еще не инициализирована");
         }
         ArrayList<Weapon> descWeapon = collectionManager.printFieldDescendingWeapon();
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("Response", request.getLocale());
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("Response");
         return new Response(ResponseStatus.OK, MessageFormat.format(resourceBundle.getString("allWeaponType"), descWeapon));
     }
 }

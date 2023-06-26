@@ -30,9 +30,10 @@ public class ShowCommand extends BaseCommand {
     @Override
     public Response execute(Request request) throws IllegalArgumentsException {
         if (!request.getArgs().isBlank()) throw new IllegalArgumentsException();
-        if (CollectionManager.getCollection() == null || CollectionManager.getCollection().isEmpty()) {
+        Collection<SpaceMarine> collection = collectionManager.getCollection();
+        if (collection == null || collection.isEmpty()) {
             return new Response(ResponseStatus.ERROR, "Коллекция еще не инициализирована");
         }
-        return new Response(ResponseStatus.OK, "Коллекция: \n" + collectionManager.information() + "\n");
+        return new Response(ResponseStatus.OK, "Коллекция:", collection);
     }
 }

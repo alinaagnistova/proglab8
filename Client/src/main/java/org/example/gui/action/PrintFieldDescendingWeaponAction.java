@@ -15,7 +15,7 @@ public class PrintFieldDescendingWeaponAction extends Action{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Response response = client.sendAndAskResponse(new Request("print_field_descending_weapon_type", "", user, GuiManager.getLocale()));
+        Response response = client.sendAndAskResponse(new Request("print_field_descending_weapon_type", "", user));
         if(response.getStatus() == ResponseStatus.OK) JOptionPane.showMessageDialog(null, response.getResponse(), resourceBundle.getString("Result"), JOptionPane.PLAIN_MESSAGE);
         else JOptionPane.showMessageDialog(null, resourceBundle.getString("NoResult"), resourceBundle.getString("Error"), JOptionPane.ERROR_MESSAGE);
     }

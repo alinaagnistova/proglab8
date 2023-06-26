@@ -62,7 +62,7 @@ public class ExecuteFileManager implements UserInput {
                     }
                 }
                 console.write(ConsoleColors.toColor(resourceBundle.getString("DoingCommand") + userCommand[0], ConsoleColors.YELLOW));
-                Response response = client.sendAndAskResponse(new Request(userCommand[0], userCommand[1], user, GuiManager.getLocale()));
+                Response response = client.sendAndAskResponse(new Request(userCommand[0], userCommand[1], user));
                 this.printResponse(response);
                 switch (response.getStatus()){
                     case ASK_OBJECT -> {
@@ -79,9 +79,8 @@ public class ExecuteFileManager implements UserInput {
                                         userCommand[0].trim(),
                                         userCommand[1].trim(),
                                         user,
-                                        spaceMarine,
-                                        GuiManager.getLocale()));
-                        if (newResponse.getStatus() != ResponseStatus.OK){
+                                        spaceMarine));
+                                        if (newResponse.getStatus() != ResponseStatus.OK){
                             console.printError(newResponse.getResponse());
                         }
                         else {

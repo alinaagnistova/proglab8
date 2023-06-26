@@ -11,6 +11,7 @@ import org.example.error.NoSuchIDException;
 
 import java.util.Collection;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 /**
  * sort : sort the collection in natural order
@@ -33,7 +34,8 @@ public class SortCommand extends BaseCommand implements CollectionEditor{
         if (CollectionManager.getCollection() == null || CollectionManager.getCollection().isEmpty()) {
             return new Response(ResponseStatus.ERROR, "Коллекция еще не инициализирована");
         }
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("Response");
         collectionManager.sort();
-        return new Response(ResponseStatus.OK, "Коллекция отсортирована\n");
+        return new Response(ResponseStatus.OK, resourceBundle.getString("Sort"));
     }
     }

@@ -127,7 +127,7 @@ public class AddAction extends Action {
         // Default Values
         {
             nameField.setValue("Muhamed");
-            cordXField.setValue("2.0");
+            cordXField.setValue("2");
             cordYField.setValue("3.0");
             healthField.setValue("50");
             chapterNameField.setValue("Cosmo");
@@ -180,7 +180,7 @@ public class AddAction extends Action {
                             .addComponent(meleeWeaponLabel)
                             .addComponent(chapterLabel)
                             .addComponent(chapterNameLabel)
-                            .addComponent(chapterNameLabel)
+                            .addComponent(chapterMarinesCountLabel)
                     )
                     .addGroup(layout.createParallelGroup()
                             .addComponent(nameField)

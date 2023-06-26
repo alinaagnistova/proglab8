@@ -19,12 +19,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.text.DateFormat;
-import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.*;
 
 import static javax.swing.JOptionPane.*;
@@ -34,7 +31,7 @@ public class GuiManager {
     private final Client client;
     private static Locale locale = new Locale("en");
     private final ClassLoader classLoader = this.getClass().getClassLoader();
-    private DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, locale);
+    private DateTimeFormatter dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale);
     private static ResourceBundle resourceBundle = ResourceBundle.getBundle("GuiLabels", GuiManager.getLocale());
     private final JFrame frame;
     private Container contentPane;
@@ -45,7 +42,6 @@ public class GuiManager {
     private CartesianPanel cartesianPanel = null;
     private Object[][] tableData = null;
     private Collection<SpaceMarine> collection = null;
-    private FilterWorker filterWorker = new FilterWorker();
     private Map<JButton, String> buttonsToChangeLocale = new LinkedHashMap<>();
     private User user;
 
@@ -119,20 +115,11 @@ public class GuiManager {
         this.tableModel.setDataVector(tableData, columnNames);
         this.table = new JTable(tableModel);
 
-//        new Timer(3000, (i) ->{
-//            Object[][] newTableData = this.getTableData();
-//            if(!Arrays.deepEquals(this.tableData, newTableData)) {
-//                this.tableData = newTableData;
-//                this.tableModel.setDataVector(this.tableData, columnNames);
-//                this.tableModel.fireTableDataChanged();
-//                this.cartesianPanel.updateUserColors();
-//                this.cartesianPanel.reanimate();
-//            }
-//        }).start();
-        new Timer(3000, (i) -> {
+        new Timer(1000, (i) -> {
             Object[][] newTableData = this.getTableData();
             if (newTableData != null && !Arrays.deepEquals(this.tableData, newTableData)) {
                 this.tableData = newTableData;
+                this.tableModel.setRowCount(this.tableData.length + 1);
                 this.tableModel.setDataVector(this.tableData, columnNames);
                 this.tableModel.fireTableDataChanged();
                 if (this.cartesianPanel != null) {
@@ -161,14 +148,7 @@ public class GuiManager {
         {
             sorter.setComparator(2, Comparator.comparing(i -> ((Coordinates) i)));
             sorter.setComparator(3, Comparator.comparing(
-                    i -> {
-                        try {
-                            return dateFormat.parse((String) i);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                            return null;
-                        }
-                    }));
+                    i -> LocalDate.parse((String) i, dateFormat)));
         }
         table.setRowSorter(sorter);
 
@@ -240,101 +220,8 @@ public class GuiManager {
         };
     }
 
-//        panel = new Panel();
-//        GroupLayout layout = new GroupLayout(panel);
-//        panel.setLayout(layout);
-//        layout.setAutoCreateGaps(true);
-//        layout.setAutoCreateContainerGaps(true);
-//        if(user == null) this.loginAuth();
-//        this.tableData = this.getTableDataSpaceMarine();
-//        this.tableModel = new StreamTableModel(columnNames, tableData.size(), filterWorker);
-//        this.tableModel.setDataVector(tableData, columnNames);
-//        this.table = new JTable(tableModel);
-//        frame.setJMenuBar(this.createMenuBar());
-//
-//        JButton tableExecute = new JButton(resourceBundle.getString("Table"));
-//        JButton cartesianExecute = new JButton(resourceBundle.getString("Coordinates"));
-//
-//
-//        new Timer(500, (i) ->{
-//            this.timerTrigger();
-//        }).start();
-//
-//        // Выбрать столбец для сортировки
-//        table.getTableHeader().setReorderingAllowed(false);
-//        table.setDragEnabled(false);
-//        table.getTableHeader().addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                Point point = e.getPoint();
-//                int column = table.columnAtPoint(point);
-//                tableModel.performSorting(column);
-//                table.repaint();
-//            }
-//        });
-//        // Выбрать строку для изменения
-//        this.table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-//            @Override
-//            public void valueChanged(ListSelectionEvent e) {
-//                Long id = tableModel.getRow(table.getSelectedRow()).getId();
-//                new UpdateAction(user, client, GuiManager.this).updateJOptionWorker(id);
-//            }
-//        });
-//
-//
-//
-//        JScrollPane tablePane = new JScrollPane(table);
-//        this.cartesianPanel = new CartesianPanel(client, user, this);
-//        JPanel cardPanel = new JPanel();
-//        ImageIcon userIcon = new ImageIcon(new ImageIcon(classLoader.getResource("icons/user.png"))
-//                .getImage()
-//                .getScaledInstance(25, 25, Image.SCALE_AREA_AVERAGING));
-//        JLabel userLabel = new JLabel(user.name());
-//        userLabel.setFont(new Font("Lucida Console", Font.ITALIC, 18));
-//        userLabel.setIcon(userIcon);
-//        CardLayout cardLayout = new CardLayout();
-//        cardPanel.setLayout(cardLayout);
-//        cardPanel.add(tablePane, "Table");
-//        cardPanel.add(cartesianPanel, "Cartesian");
-//
-//        tableExecute.addActionListener((actionEvent) -> {
-//            cardLayout.show(cardPanel, "Table");
-//        });
-//        cartesianExecute.addActionListener((actionEvent) -> {
-//            this.cartesianPanel.reanimate();
-//            cardLayout.show(cardPanel, "Cartesian");
-//        });
-//
-//        layout.setHorizontalGroup(layout.createSequentialGroup()
-//                .addGroup(layout.createParallelGroup()
-//                        .addComponent(cardPanel)
-//                        .addGroup(layout.createSequentialGroup()
-//                                .addComponent(tableExecute)
-//                                .addComponent(cartesianExecute)
-//                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-//                                .addComponent(userLabel)
-//                                .addGap(5))));
-//        layout.setVerticalGroup(layout.createSequentialGroup()
-//                .addComponent(cardPanel)
-//                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-//                        .addComponent(tableExecute)
-//                        .addComponent(cartesianExecute)
-//                        .addComponent(userLabel)
-//                        .addGap(5)));
-//        frame.add(panel);
-//        frame.setVisible(true);
-//    }
-//
-//    public ArrayList<SpaceMarine> getTableDataSpaceMarine(){
-//        Response response = client.sendAndAskResponse(new Request("show", "", user, GuiManager.getLocale()));
-//        if(response.getStatus() != ResponseStatus.OK) return null;
-//        this.collection = new ArrayList<>(response.getCollection());
-//        return new ArrayList<>(response.getCollection());
-//    }
-
     private JMenuBar createMenuBar(){
         int iconSize = 40;
-//todo change объявление переменных
         JMenuBar menuBar = new JMenuBar();
         JMenu actions = new JMenu(resourceBundle.getString("Actions"));
         JMenuItem add = new JMenuItem(resourceBundle.getString("Add"));
@@ -418,62 +305,15 @@ public class GuiManager {
         actions.add(printUniqueMeleeWeapon);
         actions.add(info);
         actions.addSeparator();
+        actions.add(sort);
+        actions.add(shuffle);
+        actions.addSeparator();
         actions.add(language);
         actions.addSeparator();
         actions.add(executeScript);
         actions.add(exit);
 
         menuBar.add(actions);
-
-//        JMenuItem clearFilters = new JMenuItem(resourceBundle.getString("ClearFilter"));
-//        JMenuItem idFilter = new JMenuItem("id");
-//        JMenuItem nameFilter = new JMenuItem("name");
-//        JMenuItem cordFilter = new JMenuItem("coordinates");
-//        JMenuItem creationDateFilter = new JMenuItem("creation_date");
-//        JMenuItem healthFilter = new JMenuItem("health");
-//        JMenuItem astartesCategoryFilter = new JMenuItem("astartes_category");
-//        JMenuItem weaponFilter = new JMenuItem("weapon");
-//        JMenuItem meleeWeaponFilter = new JMenuItem("melee_weapon");
-//        JMenuItem chapterNameFilter = new JMenuItem("chapter_name");
-//        JMenuItem chapterMarinesCountFilter = new JMenuItem("chapter_marines_count");
-//        JMenuItem ownerLoginFilter = new JMenuItem("owner_login");
-
-//        clearFilters.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                filterWorker.clearPredicates();
-//                tableModel.performFiltration();
-//                table.repaint();
-//            }
-//        });
-//        idFilter.addActionListener(new FilterListener(0, tableModel, table, filterWorker));
-//        nameFilter.addActionListener(new FilterListener(1, tableModel, table, filterWorker));
-//        cordFilter.addActionListener(new FilterListener(2, tableModel, table, filterWorker));
-//        creationDateFilter.addActionListener(new FilterListener(3, tableModel, table, filterWorker));
-//        healthFilter.addActionListener(new FilterListener(4, tableModel, table, filterWorker));
-//        astartesCategoryFilter.addActionListener(new FilterListener(5, tableModel, table, filterWorker));
-//        weaponFilter.addActionListener(new FilterListener(6, tableModel, table, filterWorker));
-//        meleeWeaponFilter.addActionListener(new FilterListener(7, tableModel, table, filterWorker));
-//        chapterNameFilter.addActionListener(new FilterListener(8, tableModel, table, filterWorker));
-//        chapterMarinesCountFilter.addActionListener(new FilterListener(9, tableModel, table, filterWorker));
-//        ownerLoginFilter.addActionListener(new FilterListener(10, tableModel, table, filterWorker));
-//
-//        JMenu filters = new JMenu(resourceBundle.getString("Filters"));
-
-//        filters.add(clearFilters);
-//        filters.add(idFilter);
-//        filters.add(nameFilter);
-//        filters.add(cordFilter);
-//        filters.add(creationDateFilter);
-//        filters.add(healthFilter);
-//        filters.add(astartesCategoryFilter);
-//        filters.add(weaponFilter);
-//        filters.add(meleeWeaponFilter);
-//        filters.add(chapterNameFilter);
-//        filters.add(chapterMarinesCountFilter);
-//        filters.add(ownerLoginFilter);
-//
-//        menuBar.add(filters);
         return menuBar;
     }
 
@@ -571,8 +411,7 @@ public class GuiManager {
         Locale.setDefault(locale);
         ResourceBundle.clearCache();
         resourceBundle = ResourceBundle.getBundle("GuiLabels", locale);
-        dateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, locale);
-        this.buttonsToChangeLocale.forEach((i, j) -> i.setText(resourceBundle.getString(j)));
+        dateFormat = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale);        this.buttonsToChangeLocale.forEach((i, j) -> i.setText(resourceBundle.getString(j)));
         this.tableData = this.getTableData();
         this.tableModel.setDataVector(this.tableData, columnNames);
         this.tableModel.fireTableDataChanged();
@@ -581,28 +420,5 @@ public class GuiManager {
         this.run();
     }
 
-//    public void repaintNoAnimation(){
-//        ArrayList<SpaceMarine> newTableData = this.getTableDataSpaceMarine();
-//        this.tableData = newTableData;
-//        this.tableModel.setDataVector(this.tableData, columnNames);
-//        this.tableModel.performFiltration();
-//        this.table.repaint();
-//        this.tableModel.fireTableDataChanged();
-////        this.cartesianPanel.updateUserColors();
-//        this.cartesianPanel.reanimate(100);
-//    }
-//
-//    public void timerTrigger(){
-//        ArrayList<SpaceMarine> newTableData = this.getTableDataSpaceMarine();
-//        if(!(this.tableData.equals(newTableData))) {
-//            this.tableData = newTableData;
-//            this.tableModel.setDataVector(this.tableData, columnNames);
-//            this.tableModel.performFiltration();
-//            this.table.repaint();
-//            this.tableModel.fireTableDataChanged();
-//            this.cartesianPanel.updateUserColors();
-//            this.cartesianPanel.reanimate();
-//        }
-//    }
 }
 

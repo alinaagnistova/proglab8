@@ -7,6 +7,8 @@ import org.example.dtp.Response;
 import org.example.dtp.ResponseStatus;
 import org.example.error.IllegalArgumentsException;
 
+import java.util.ResourceBundle;
+
 /**
  * shuffle : shuffle collection items in random order
  */
@@ -24,8 +26,9 @@ public class ShuffleCommand extends BaseCommand implements CollectionEditor{
         if (CollectionManager.getCollection() == null || CollectionManager.getCollection().isEmpty()) {
             return new Response(ResponseStatus.ERROR, "Коллекция еще не инициализирована");
         }
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("Response");
         collectionManager.shuffle();
-        return new Response(ResponseStatus.OK, "Коллекция перемешана\n");
+        return new Response(ResponseStatus.OK, resourceBundle.getString("Shuffle"));
     }
 
 }

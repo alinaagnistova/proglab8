@@ -15,11 +15,11 @@ public class RemoveAction extends Action {
         super(user, client, guiManager);
     }
 
-    private Integer getSelectedId() {
-        Integer[] userOwnedIds = guiManager.getCollection().stream()
+    private Long getSelectedId() {
+        Long[] userOwnedIds = guiManager.getCollection().stream()
                 .filter((s) -> s.getUserLogin().equals(user.name()))
                 .map(SpaceMarine::getId)
-                .toArray(Integer[]::new);
+                .toArray(Long[]::new);
 
         BorderLayout layout = new BorderLayout();
         JPanel panel = new JPanel(layout);
@@ -35,12 +35,12 @@ public class RemoveAction extends Action {
                 idField,
                 resourceBundle.getString("Update"),
                 JOptionPane.PLAIN_MESSAGE);
-        return (Integer) idField.getSelectedItem();
+        return (Long) idField.getSelectedItem();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Integer id = this.getSelectedId();
+        Long id = this.getSelectedId();
         if(id == null) JOptionPane.showMessageDialog(null, resourceBundle.getString("NoObjects"), resourceBundle.getString("Error"), JOptionPane.ERROR_MESSAGE);
         Response response = client.sendAndAskResponse(new Request("remove_by_id", id.toString(), user));
         if(response.getStatus() == ResponseStatus.OK) {
